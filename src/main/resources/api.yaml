@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Пример генерации композиции и наследования
+  version: 1.0.0
+tags:
+  - name: CompositionAndInheritance
+paths:
+  /:
+components:
+  schemas:
+    OneOfObjectWithoutDiscriminator:
+      oneOf:
+        - $ref: '#/components/schemas/OneOfObjectWithoutDiscriminatorFirstProperty'
+        - $ref: '#/components/schemas/OneOfObjectWithoutDiscriminatorSecondProperty'
+    OneOfObjectWithoutDiscriminatorFirstProperty:
+      type: object
+      required:
+        - someProperty
+      properties:
+        someProperty:
+          type: string
+    OneOfObjectWithoutDiscriminatorSecondProperty:
+      type: object
+      required:
+        - anotherProperty
+      properties:
+        anotherProperty:
+          type: string
+
+    AllOfObjectWithoutDiscriminator:
+      allOf:
+        - $ref: '#/components/schemas/AllOfObjectWithoutDiscriminatorFirstProperty'
+        - $ref: '#/components/schemas/AllOfObjectWithoutDiscriminatorSecondProperty'
+    AllOfObjectWithoutDiscriminatorFirstProperty:
+      type: object
+      required:
+        - someProperty
+      properties:
+        someProperty:
+          type: string
+    AllOfObjectWithoutDiscriminatorSecondProperty:
+      type: object
+      required:
+        - anotherProperty
+      properties:
+        anotherProperty:
+          type: string
+
+    AnyOfObjectWithoutDiscriminator:
+      anyOf:
+        - $ref: '#/components/schemas/AnyOfObjectWithoutDiscriminatorFirstProperty'
+        - $ref: '#/components/schemas/AnyOfObjectWithoutDiscriminatorSecondProperty'
+    AnyOfObjectWithoutDiscriminatorFirstProperty:
+      type: object
+      required:
+        - someProperty
+      properties:
+        someProperty:
+          type: string
+    AnyOfObjectWithoutDiscriminatorSecondProperty:
+      type: object
+      required:
+        - anotherProperty
+      properties:
+        anotherProperty:
+          type: string
+
+    OneOfObjectWithDiscriminator:
+      oneOf:
+        - $ref: '#/components/schemas/OneOfObjectWithDiscriminatorFirstProperty'
+        - $ref: '#/components/schemas/OneOfObjectWithDiscriminatorSecondProperty'
+      discriminator:
+        propertyName: propertyType
+        mapping:
+          first: '#OneOfObjectWithDiscriminatorFirstProperty'
+          second: '#OneOfObjectWithDiscriminatorSecondProperty'
+    OneOfObjectWithDiscriminatorFirstProperty:
+      type: object
+      required:
+        - propertyType
+        - someProperty
+      properties:
+        propertyType:
+          type: string
+        someProperty:
+          type: string
+    OneOfObjectWithDiscriminatorSecondProperty:
+      type: object
+      required:
+        - propertyType
+        - anotherProperty
+      properties:
+        propertyType:
+          type: string
+        anotherProperty:
+          type: string
+
+    AllOfObjectWithDiscriminator:
+      allOf:
+        - $ref: '#/components/schemas/AllOfObjectWithDiscriminatorFirstProperty'
+        - $ref: '#/components/schemas/AllOfObjectWithDiscriminatorSecondProperty'
+      discriminator:
+        propertyName: propertyType
+        mapping:
+          first: '#AllOfObjectWithDiscriminatorFirstProperty'
+          second: '#AllOfObjectWithDiscriminatorSecondProperty'
+    AllOfObjectWithDiscriminatorFirstProperty:
+      type: object
+      required:
+        - propertyType
+        - someProperty
+      properties:
+        propertyType:
+          type: string
+        someProperty:
+          type: string
+    AllOfObjectWithDiscriminatorSecondProperty:
+      type: object
+      required:
+        - propertyType
+        - anotherProperty
+      properties:
+        propertyType:
+          type: string
+        anotherProperty:
+          type: string
+
+    AnyOfObjectWithDiscriminator:
+      anyOf:
+        - $ref: '#/components/schemas/AnyOfObjectWithDiscriminatorFirstProperty'
+        - $ref: '#/components/schemas/AnyOfObjectWithDiscriminatorSecondProperty'
+      discriminator:
+        propertyName: PropertyType
+        mapping:
+          first: '#AnyOfObjectWithDiscriminatorFirstProperty'
+          second: '#AnyOfObjectWithDiscriminatorSecondProperty'
+    AnyOfObjectWithDiscriminatorFirstProperty:
+      type: object
+      required:
+        - propertyType
+        - someProperty
+      properties:
+        propertyType:
+          type: string
+        someProperty:
+          type: string
+    AnyOfObjectWithDiscriminatorSecondProperty:
+      type: object
+      required:
+        - propertyType
+        - anotherProperty
+      properties:
+        propertyType:
+          type: string
+        anotherProperty:
+          type: string

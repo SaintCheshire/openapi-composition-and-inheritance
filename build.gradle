@@ -1,0 +1,85 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id "org.openapi.generator" version "7.1.0"
+}
+
+group = 'saint.cheshire'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.8')
+
+    implementation 'org.springframework.boot:spring-boot-starter',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.8',
+            'org.springdoc:springdoc-openapi-ui:1.6.6',
+            'io.swagger.core.v3:swagger-annotations:2.2.14',
+            'org.openapitools:openapi-generator-gradle-plugin:7.0.1',
+            'jakarta.validation:jakarta.validation-api'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    configurations {
+        implemenation {
+            exclude group: 'org.slf4j'
+        }
+    }
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += "$buildDir/generated"
+        }
+    }
+}
+
+
+tasks.register('generate openapi-composition-and-inheritance-service 1.0.0 server', GenerateTask) {
+    generatorName.set("spring")
+    inputSpec.set("${projectDir}/src/main/resources/api.yaml")
+    validateSpec.set(false)
+    outputDir.set("$buildDir/generated")
+    ignoreFileOverride.set(".openapi-generator-ignore")
+    configOptions.set([
+            library                             : "spring-boot",
+            invokerPackage                      : "saint.cheshire.specifications.spring_boot_openapi_generation.v1_0_0.server",
+            apiPackage                          : "saint.cheshire.specifications.spring_boot_openapi_generation.v1_0_0.server.api",
+            modelPackage                        : "saint.cheshire.specifications.spring_boot_openapi_generation.v1_0_0.server.model",
+            configPackage                       : "saint.cheshire.specifications.spring_boot_openapi_generation.v1_0_0.server.configuration",
+            basePackage                         : "saint.cheshire.specifications.spring_boot_openapi_generation.v1_0_0.server",
+            useOptional                         : "true",
+            openApiNullable                     : "false",
+            interfaceOnly                       : "false",
+            sourceFolder                        : "",
+            additionalModelTypeAnnotations      : "@lombok.Builder(toBuilder = true)\n@lombok.RequiredArgsConstructor\n@lombok.AllArgsConstructor",
+            generatedConstructorWithRequiredArgs: "false",
+            useTags                             : "true"
+    ])
+}
+
+compileJava.dependsOn 'generate openapi-composition-and-inheritance-service 1.0.0 server'
